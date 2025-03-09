@@ -1,6 +1,6 @@
 # React Native MVC Product List App
 
-![Alt text](/ui-app.gif)
+![gif-image](/ui-app.gif)
 
 ## 📌 Project Overview
 This project is a **React Native** application that follows the **MVC (Model-View-Controller)** architecture to display a categorized product list. The app includes features such as **product filtering**, **discount calculations**, and a **loading indicator** to enhance user experience.
