@@ -1,12 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet, SectionList } from 'react-native';
 import React, { useState } from 'react';
+
 import ProductCard from '../components/ProductCard';
-import ProductController from '../controller/ProductController';
+import useProductController from '../controller/ProductController';
 
 export default function ProductList() {
   const [selectedCategory, setSelectedCategory] = useState("Makanan");
+  const { products } = useProductController(selectedCategory); // Menggunakan Controller dengan Lifecycle
 
-  const products = ProductController.getProductsByCategory(selectedCategory);
   const sections = [{ title: selectedCategory, data: products }];
 
   return (
