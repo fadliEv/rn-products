@@ -1,12 +1,13 @@
-import { View, Text, TouchableOpacity, StyleSheet, SectionList } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, SectionList } from "react-native";
+import React, { useState } from "react";
+import useProductController from "../controller/ProductController";
+import Loading from "../components/Loading";
+import ProductCard from "../components/ProductCard";
 
-import ProductCard from '../components/ProductCard';
-import useProductController from '../controller/ProductController';
 
 export default function ProductList() {
   const [selectedCategory, setSelectedCategory] = useState("Makanan");
-  const { products } = useProductController(selectedCategory); // Menggunakan Controller dengan Lifecycle
+  const { products, isLoading } = useProductController(selectedCategory); // Menggunakan Controller dengan loading
 
   const sections = [{ title: selectedCategory, data: products }];
 
@@ -20,18 +21,24 @@ export default function ProductList() {
           <Text>Minuman</Text>
         </TouchableOpacity>
       </View>
-      <View>
-        <SectionList
-          sections={sections}
-          keyExtractor={(item, idx) => idx.toString()}
-          renderItem={({ item }) => <ProductCard product={item} />}
-          renderSectionHeader={({ section }) => (
-            <View style={{ padding: 10 }}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>{section.title}</Text>
-            </View>
-          )}
-        />
-      </View>
+
+      {/* Tampilkan Loading jika isLoading true */}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <View>
+          <SectionList
+            sections={sections}
+            keyExtractor={(item, idx) => idx.toString()}
+            renderItem={({ item }) => <ProductCard product={item} />}
+            renderSectionHeader={({ section }) => (
+              <View style={{ padding: 10 }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>{section.title}</Text>
+              </View>
+            )}
+          />
+        </View>
+      )}
     </View>
   );
 }
