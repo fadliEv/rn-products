@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 import ProductModel from "../models/ProductModel";
 import ProductDummy from "../utils/ProductDummy";
 
-export default function useProductController(selectedCategory) {
+export default function useProductViewModel(selectedCategory) {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // State loading
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true); // Aktifkan loading
-
+    setIsLoading(true);
+    
     console.log("Fetching products for category:", selectedCategory);
 
     setTimeout(() => {
       const filteredProducts = ProductDummy
-        .filter((product) => product.category === selectedCategory)
-        .map((product) => new ProductModel(product));
+        .filter((p) => p.category === selectedCategory)
+        .map((p) => new ProductModel(p));
 
       setProducts(filteredProducts);
-      setIsLoading(false); // Matikan loading setelah data di-fetch
-    }, 2000); // Simulasi loading selama 2 detik
+      setIsLoading(false);
+    }, 2000);
 
     return () => {
       console.log("Cleanup - Component Unmounted or Category Changed");

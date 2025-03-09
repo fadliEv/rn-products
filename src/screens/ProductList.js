@@ -1,15 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet, SectionList } from "react-native";
 import React, { useState } from "react";
-import useProductController from "../controller/ProductController";
-import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
-
+import useProductViewModel from "../view-models/ProductViewModel";
+import Loading from "../components/Loading";
 
 export default function ProductList() {
   const [selectedCategory, setSelectedCategory] = useState("Makanan");
-  const { products, isLoading } = useProductController(selectedCategory); // Menggunakan Controller dengan loading
-
-  const sections = [{ title: selectedCategory, data: products }];
+  const { products, isLoading } = useProductViewModel(selectedCategory);
 
   return (
     <View style={{ flex: 1 }}>
@@ -22,22 +19,17 @@ export default function ProductList() {
         </TouchableOpacity>
       </View>
 
-      {/* Tampilkan Loading jika isLoading true */}
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <View>
-          <SectionList
-            sections={sections}
-            keyExtractor={(item, idx) => idx.toString()}
-            renderItem={({ item }) => <ProductCard product={item} />}
-            renderSectionHeader={({ section }) => (
-              <View style={{ padding: 10 }}>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>{section.title}</Text>
-              </View>
-            )}
-          />
-        </View>
+      {isLoading ? <Loading /> : (
+        <SectionList
+          sections={[{ title: selectedCategory, data: products }]}
+          keyExtractor={(item, idx) => idx.toString()}
+          renderItem={({ item }) => <ProductCard product={item} />}
+          renderSectionHeader={({ section }) => (
+            <View style={{ padding: 10 }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>{section.title}</Text>
+            </View>
+          )}
+        />
       )}
     </View>
   );
