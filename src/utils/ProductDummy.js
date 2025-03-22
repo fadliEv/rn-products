@@ -24,7 +24,7 @@ export default ProductDummy = [
     {
       id: "3",
       imgUrl:
-        "https://www.tehsariwangi.com/uploads/ar/article/411/534206a1a98f74d0dd5b195c88a31dc3.jpg",
+        "https://imgs.search.brave.com/dUNFNO7IUJWsmVgU54AcvHB4RTsfxVa5eEV3a6cD8VI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2VmL0ljZWRfVGVh/X2Zyb21fZmxpY2ty/LmpwZw",
       name: "Es Teh Manis",
       category: "Minuman",
       price: 5000,
@@ -98,7 +98,7 @@ export default ProductDummy = [
     {
       id: "10",
       imgUrl:
-        "https://www.tehsariwangi.com/uploads/ar/article/411/534206a1a98f74d0dd5b195c88a31dc3.jpg",
+        "https://imgs.search.brave.com/rXOetFAYaCJCIneRILldPOyEArCtxvNXpJMuH_CAJGc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy81/LzVkL05hc2lfS3Vu/aW5nX0lidV9TdWxh/c3RyaS5qcGc",
       name: "Nasi Kuning",
       category: "Makanan",
       price: 17000,

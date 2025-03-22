@@ -1,37 +1,30 @@
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import ProductList from './src/screens/ProductList';
 import SplashScreen from './src/components/SplashScreen';
-import { useEffect, useState } from 'react';
+import AppNavigator from './src/navigation/AppNavigator';
+import { AuthProvider } from './src/context/AuthContext';
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
-    // Simulasi loading sebelum menampilkan aplikasi utama
-    const timer = setTimeout(() => {
-      setAppIsReady(true);
-    }, 2000); // Splash screen akan tampil selama 2 detik
-
-    return () => clearTimeout(timer); // Cleanup timer saat komponen di-unmount
+    const timer = setTimeout(() => setAppIsReady(true), 2000);
+    return () => clearTimeout(timer);
   }, []);
 
-  if (!appIsReady) {
-    return <SplashScreen />; // Tampilkan SplashScreen jika aplikasi belum siap
-    
-  }
+  if (!appIsReady) return <SplashScreen />;
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      <ProductList />
+      <StatusBar backgroundColor="#f5f5f5" style="dark" />
+      <AuthProvider>
+        <AppNavigator />
+      </AuthProvider>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
+  container: { flex: 1 },
 });

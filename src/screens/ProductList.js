@@ -26,7 +26,7 @@ export default function ProductList() {
       {isLoading ? (
         <Loading />
       ) : (
-        <View>
+        <View style={{paddingBottom : 75}}>
           <SectionList
             sections={sections}
             keyExtractor={(item, idx) => idx.toString()}
