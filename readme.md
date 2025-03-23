@@ -1,34 +1,39 @@
-# React Native MVC Product List App
+# React Native | Material Design
 
 ![gif-image](/ui-app-v2.gif)
 
 ## 📌 Project Overview
-This project is a **React Native** application that follows the **MVC (Model-View-Controller)** architecture to display a categorized product list. The app includes features such as **product filtering**, **discount calculations**, and a **loading indicator** to enhance user experience.
+This project is a **React Native** application that follows the **MVC (Model-View-Controller)** architecture to display a categorized product list. The app includes features such as **product filtering**, **discount calculations**, and a **loading indicator** to enhance user experience.  
+It also incorporates several **Material Design principles** to improve the UI consistency, usability, and visual hierarchy.
 
-## 🚀 Features
-- **MVC Architecture**: Separates business logic (Model), UI (View), and data processing (Controller).
-- **Product Filtering**: Users can switch between categories (Makanan & Minuman).
-- **Dynamic Discount Calculation**: Displays the discount amount and percentage correctly.
-- **Loading Simulation**: Uses `setTimeout` to simulate API loading behavior.
-- **Reusable Components**: Modular design with `ProductCard` and `Loading` components.
+---
 
-## 🏗 Project Structure
-```
-src/
- ├── components/
- │   ├── ProductCard.js        // View (Product UI)
- │   ├── ProductCard.style.js  // Styles for ProductCard
- │   ├── Loading.js            // Loading Component
- ├── controllers/
- │   ├── ProductController.js  // Controller (Manages logic & data fetching)
- ├── models/
- │   ├── ProductModel.js       // Model (Handles product data)
- ├── screens/
- │   ├── ProductList.js        // View (Displays product list & categories)
- ├── utils/
- │   ├── ProductDummy.js       // Dummy product data
- ├── App.js                    // Main entry point
-```
+## 🚀 Features  
+- **MVC Architecture**: Separates business logic (Model), UI (View), and data processing (Controller).  
+- **Product Filtering**: Users can switch between categories (Makanan & Minuman).  
+- **Dynamic Discount Calculation**: Displays the discount amount and percentage correctly.  
+- **Loading Simulation**: Uses `setTimeout` to simulate API loading behavior.  
+- **Reusable Components**: Modular design with `ProductCard`, `Loading`, `LoginForm`, and more.  
+- **Authentication Flow**: Includes login screen with validation and logout functionality using `SecureStore` and context.  
+- **Bottom Tab Navigation**: Navigation structure follows standard tabbed layout (Home & Profile).  
+
+---
+
+## 🎨 Material Design Implementation  
+
+This project incorporates key **Material Design principles** to create a clean, intuitive, and visually consistent interface:
+
+- **Typography & Hierarchy**: Clear text hierarchy with distinct font sizes and weights.  
+- **Color Theming**: Uses a consistent primary color (`#FF8C00`) for actions and branding.  
+- **Elevation and Shadow**: Visual depth added to interactive elements like cards and buttons.  
+- **Visual Feedback (Ripple Effect)**: Interactive elements provide ripple feedback using `TouchableNativeFeedback`.  
+- **Card-style Layout**: Product items are displayed in card components with proper spacing and visual containment.  
+- **Consistent Spacing & Padding**: Elements are spaced thoughtfully for a clean layout.  
+- **Sectional Layout**: Screens like `ProfileScreen` are organized into structured sections (header, content, actions).  
+- **Icons**: Clear iconography used for navigation and menu items via `Ionicons`.  
+- **User Feedback Modals**: Confirmation modal used for logout follows Material dialog interaction.
+
+
 
 ## 📦 Installation & Setup
 1. **Clone the repository**
@@ -47,178 +52,10 @@ src/
 
 ## 🛠 Technologies Used
 - **React Native** (Expo)
-- **State Management**: React Hooks (`useState`, `useEffect`)
+- **State Management**: React Hooks (`useState`, `useEffect`, `useContext`)
+- **Component Library**: Material Design
 - **Styling**: React Native `StyleSheet`
 
-## 📜 MVC Implementation
-### **1. Model (ProductModel.js)**
-Handles product data, including calculations for discount amount and percentage.
-```javascript
-export default class ProductModel {
-  constructor(product) {
-    this.id = product.id;
-    this.name = product.name;
-    this.price = product.price;
-    this.discount = product.discount || 0;
-  }
-
-  getDiscountedPrice() {
-    return Math.round(this.price * this.discount);
-  }
-
-  getDiscountPercentage() {
-    return Math.round(this.discount * 100);
-  }
-}
-```
-
-### **2. Controller (ProductController.js)**
-Fetches products based on category and simulates loading delay using `setTimeout`.
-```javascript
-import { useState, useEffect } from "react";
-import ProductModel from "../models/ProductModel";
-import ProductDummy from "../utils/ProductDummy";
-
-export default function useProductController(selectedCategory) {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const filteredProducts = ProductDummy
-        .filter((p) => p.category === selectedCategory)
-        .map((p) => new ProductModel(p));
-      setProducts(filteredProducts);
-      setIsLoading(false);
-    }, 2000);
-  }, [selectedCategory]);
-
-  return { products, isLoading };
-}
-```
-
-### **3. View (ProductList.js & ProductCard.js)**
-Manages UI and displays products retrieved from the Controller.
-```javascript
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SectionList,
-  Platform,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from "react-native";
-import useProductController from "../controller/ProductController";
-import Loading from "../components/Loading";
-import ProductCard from "../components/ProductCard";
-
-export default function ProductList() {
-  const [selectedCategory, setSelectedCategory] = useState("Makanan");
-  const { products, isLoading } = useProductController(selectedCategory);
-
-  const sections = [{ title: selectedCategory, data: products }];
-
-  const CategoryButton = ({ title }) => {
-    const isActive = selectedCategory === title;
-
-    const content = (
-      <View style={[styles.btn, isActive && styles.btnActive]}>
-        <Text style={[styles.btnText, isActive && styles.btnTextActive]}>{title}</Text>
-      </View>
-    );
-
-    if (Platform.OS === "android") {
-      return (
-        <TouchableNativeFeedback
-          onPress={() => setSelectedCategory(title)}
-          background={TouchableNativeFeedback.Ripple("#ccc", false)}
-        >
-          {content}
-        </TouchableNativeFeedback>
-      );
-    }
-
-    return (
-      <TouchableOpacity onPress={() => setSelectedCategory(title)} activeOpacity={0.7}>
-        {content}
-      </TouchableOpacity>
-    );
-  };
-
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.headerSection}>
-        <CategoryButton title="Makanan" />
-        <CategoryButton title="Minuman" />
-      </View>
-
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <View style={{ paddingBottom: 75 }}>
-          <SectionList
-            sections={sections}
-            keyExtractor={(item, idx) => idx.toString()}
-            renderItem={({ item }) => <ProductCard product={item} />}
-            renderSectionHeader={({ section }) => (
-              <View style={{ padding: 10 }}>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>{section.title}</Text>
-              </View>
-            )}
-          />
-        </View>
-      )}
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  headerSection: {
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "white",
-    paddingVertical: 15,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.4,
-    elevation: 5,
-    zIndex: 10,
-  },
-  btn: {
-    marginHorizontal: 15,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "#ededed",
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    ...Platform.select({
-      android: { elevation: 2 },
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
-    }),
-  },
-  btnActive: {
-    backgroundColor: "#FF8C00",
-  },
-  btnText: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#333",
-  },
-  btnTextActive: {
-    color: "#fff",
-  },
-});
-
-```
 
 ## 🎯 Future Improvements
 - ✅ Fetch data from an **API** instead of dummy data.
