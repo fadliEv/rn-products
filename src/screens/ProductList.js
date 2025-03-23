@@ -4,10 +4,8 @@ import {
   Text,
   StyleSheet,
   SectionList,
-  Platform,
-  TouchableNativeFeedback,
-  TouchableOpacity,
 } from "react-native";
+import { Button } from "react-native-paper"; // ✅ Import Paper Button
 import useProductController from "../controller/ProductController";
 import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
@@ -21,27 +19,18 @@ export default function ProductList() {
   const CategoryButton = ({ title }) => {
     const isActive = selectedCategory === title;
 
-    const content = (
-      <View style={[styles.btn, isActive && styles.btnActive]}>
-        <Text style={[styles.btnText, isActive && styles.btnTextActive]}>{title}</Text>
-      </View>
-    );
-
-    if (Platform.OS === "android") {
-      return (
-        <TouchableNativeFeedback
-          onPress={() => setSelectedCategory(title)}
-          background={TouchableNativeFeedback.Ripple("#ccc", false)}
-        >
-          {content}
-        </TouchableNativeFeedback>
-      );
-    }
-
     return (
-      <TouchableOpacity onPress={() => setSelectedCategory(title)} activeOpacity={0.7}>
-        {content}
-      </TouchableOpacity>
+      <Button
+        mode={isActive ? "contained" : "outlined"}
+        onPress={() => setSelectedCategory(title)}
+        style={styles.paperBtn}
+        contentStyle={styles.paperBtnContent}
+        labelStyle={[styles.btnText, isActive && styles.btnTextActive]}
+        buttonColor={isActive ? "#FF8C00" : undefined}
+        textColor={isActive ? "#fff" : "#333"}
+      >
+        {title}
+      </Button>
     );
   };
 
@@ -84,31 +73,17 @@ const styles = StyleSheet.create({
     elevation: 5,
     zIndex: 10,
   },
-  btn: {
-    marginHorizontal: 15,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "#ededed",
+  paperBtn: {
+    marginHorizontal: 10,
     borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    ...Platform.select({
-      android: { elevation: 2 },
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
-    }),
   },
-  btnActive: {
-    backgroundColor: "#FF8C00",
+  paperBtnContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 4,
   },
   btnText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#333",
   },
   btnTextActive: {
     color: "#fff",
