@@ -1,5 +1,5 @@
 import React from "react";
-import { Button as PaperButton } from "react-native-paper"; // ✅ import dari paper
+import { Button as PaperButton } from "react-native-paper"; // import dari paper
 import styles from "./Button.style";
 
 const Button = ({ title, onPress, disabled, loading }) => {

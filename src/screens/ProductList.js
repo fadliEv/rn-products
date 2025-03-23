@@ -5,7 +5,7 @@ import {
   StyleSheet,
   SectionList,
 } from "react-native";
-import { Button } from "react-native-paper"; // ✅ Import Paper Button
+import { Button } from "react-native-paper"; 
 import useProductController from "../controller/ProductController";
 import Loading from "../components/Loading";
 import ProductCard from "../components/ProductCard";
